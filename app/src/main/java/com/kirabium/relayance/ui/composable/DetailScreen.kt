@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -82,6 +83,7 @@ fun DetailScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
+                            modifier = Modifier.testTag("name"),
                             text = customer.name,
                             style = MaterialTheme.typography.headlineMedium.copy(
                                 fontSize = 24.sp,
@@ -90,6 +92,7 @@ fun DetailScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
+                            modifier = Modifier.testTag("email"),
                             text = customer.email,
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = 16.sp
@@ -97,6 +100,7 @@ fun DetailScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
+                            modifier = Modifier.testTag("creationDate"),
                             text =  stringResource(id = R.string.created_at, customer.createdAt.toHumanDate()),
                             style = MaterialTheme.typography.bodyMedium.copy(
                                 fontSize = 16.sp
