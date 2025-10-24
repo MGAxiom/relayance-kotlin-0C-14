@@ -1,4 +1,4 @@
-package com.kirabium.relayance.domain.model
+package com.kirabium.relayance.domain.model.model
 
 import java.util.Calendar
 import java.util.Date

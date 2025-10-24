@@ -1,6 +1,6 @@
 package com.kirabium.relayance.data
 
-import com.kirabium.relayance.domain.model.Customer
+import com.kirabium.relayance.domain.model.model.Customer
 import java.util.Calendar
 import java.util.Date
 

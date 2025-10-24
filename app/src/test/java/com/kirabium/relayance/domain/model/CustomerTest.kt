@@ -1,5 +1,6 @@
 package com.kirabium.relayance.domain.model
 
+import com.kirabium.relayance.domain.model.model.Customer
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test

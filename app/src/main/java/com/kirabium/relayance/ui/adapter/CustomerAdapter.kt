@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kirabium.relayance.databinding.CustomerItemBinding
-import com.kirabium.relayance.domain.model.Customer
+import com.kirabium.relayance.domain.model.model.Customer
 
 class CustomerAdapter(private val customers: List<Customer>, private val onClick: (Customer) -> Unit) : RecyclerView.Adapter<CustomerAdapter.CustomerViewHolder>() {
 
