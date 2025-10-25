@@ -3,8 +3,9 @@ import com.android.build.gradle.BaseExtension
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.jetbrainsCompose)
     id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
     id("jacoco")
 }
 tasks.withType<Test> {
@@ -15,11 +16,11 @@ tasks.withType<Test> {
 }
 android {
     namespace = "com.kirabium.relayance"
-    compileSdk = 34
+    compileSdk = 36
 
-    testCoverage {
-        version = "0.8.8"
-    }
+//    testCoverage {
+//        version = "0.8.8"
+//    }
 
     defaultConfig {
         applicationId = "com.kirabium.relayance"
@@ -34,10 +35,6 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding = true
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -47,8 +44,7 @@ android {
             )
         }
         debug {
-            enableAndroidTestCoverage = true
-            enableUnitTestCoverage = true
+
         }
     }
     compileOptions {
@@ -60,10 +56,9 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -109,8 +104,11 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.espresso.contrib)
-    implementation("com.google.dagger:hilt-android:2.57.1")
-    ksp("com.google.dagger:hilt-android-compiler:2.57.1")
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(libs.androidx.compose.foundation)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     //Test
     testImplementation(libs.junit)

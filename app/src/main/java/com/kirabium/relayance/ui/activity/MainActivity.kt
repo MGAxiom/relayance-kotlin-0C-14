@@ -1,13 +1,19 @@
 package com.kirabium.relayance.ui.activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kirabium.relayance.data.DummyData
 import com.kirabium.relayance.databinding.ActivityMainBinding
+import com.kirabium.relayance.ui.MainViewModel
 import com.kirabium.relayance.ui.adapter.CustomerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainViewModel by viewModels()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var customerAdapter: CustomerAdapter
@@ -18,6 +24,11 @@ class MainActivity : AppCompatActivity() {
         setupBinding()
         setupCustomerRecyclerView()
         setupFab()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadCustomers()
     }
 
     private fun setupFab() {

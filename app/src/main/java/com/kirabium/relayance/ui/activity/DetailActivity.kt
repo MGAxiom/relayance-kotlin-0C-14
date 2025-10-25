@@ -1,13 +1,10 @@
 package com.kirabium.relayance.ui.activity
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.kirabium.relayance.R
-import com.kirabium.relayance.data.DummyData
-import com.kirabium.relayance.databinding.ActivityDetailBinding
-import com.kirabium.relayance.extension.DateExt.Companion.toHumanDate
+import com.kirabium.relayance.ui.DetailViewModel
 import com.kirabium.relayance.ui.composable.DetailScreen
 
 class DetailActivity : AppCompatActivity() {
@@ -23,11 +20,9 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupUI() {
         val customerId = intent.getIntExtra(EXTRA_CUSTOMER_ID, -1)
-        DummyData.customers.find { it.id == customerId }?.let {
-            setContent {
-                DetailScreen(customer = it) {
-                    onBackPressedDispatcher.onBackPressed()
-                }
+        setContent {
+            DetailScreen(customerId = customerId) {
+                onBackPressedDispatcher.onBackPressed()
             }
         }
     }

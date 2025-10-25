@@ -4,7 +4,6 @@ import com.kirabium.relayance.domain.model.model.Customer
 import java.util.Calendar
 import java.util.Date
 
-
 object DummyData {
     fun generateDate(monthsBack: Int): Date {
         val calendar = Calendar.getInstance()
@@ -12,7 +11,7 @@ object DummyData {
         return calendar.time
     }
 
-    val customers = listOf(
+    val customers = mutableListOf(
         Customer(1, "Alice Wonderland", "alice@example.com", generateDate(12)),
         Customer(2, "Bob Builder", "bob@example.com", generateDate(6)),
         Customer(3, "Charlie Chocolate", "charlie@example.com", generateDate(3)),
