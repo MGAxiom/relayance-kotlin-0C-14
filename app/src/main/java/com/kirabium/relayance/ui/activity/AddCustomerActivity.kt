@@ -33,15 +33,15 @@ class AddCustomerActivity : AppCompatActivity() {
     }
 
     private fun setupAddButton() {
-        binding.addButton.setOnClickListener {
-            val name = binding.nameEditText.text.toString()
-            val email = binding.emailEditText.text.toString()
-
-            if (name.isNotBlank() && email.isNotBlank()) {
-                viewModel.addCustomer(name, email)
-                finish()
-            }
-        }
+//        binding.addButton.setOnClickListener {
+//            val name = binding.nameEditText.text.toString()
+//            val email = binding.emailEditText.text.toString()
+//
+//            if (name.isNotBlank() && email.isNotBlank()) {
+//                viewModel.addCustomer(name, email)
+//                finish()
+//            }
+//        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

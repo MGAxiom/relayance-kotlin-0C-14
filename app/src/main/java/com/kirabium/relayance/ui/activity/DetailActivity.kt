@@ -2,11 +2,11 @@ package com.kirabium.relayance.ui.activity
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.kirabium.relayance.ui.DetailViewModel
 import com.kirabium.relayance.ui.composable.DetailScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
 
     companion object {
@@ -27,5 +27,3 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 }
-
-

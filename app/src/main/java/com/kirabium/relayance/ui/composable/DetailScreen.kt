@@ -2,7 +2,6 @@ package com.kirabium.relayance.ui.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kirabium.relayance.R
 import com.kirabium.relayance.domain.model.model.Customer
 import com.kirabium.relayance.extension.DateExt.Companion.toHumanDate
@@ -93,11 +92,15 @@ fun DetailScreen(
                 shape = RoundedCornerShape(16.dp),
                 elevation = CardDefaults.cardElevation(8.dp)
             ) {
-                Box(modifier = Modifier.padding(24.dp)) {
+                Box(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .fillMaxWidth()
+                ) {
                     when {
 
                         customer == null && customerId != -1 -> {
-                            CircularProgressIndicator()
+                            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                         }
 
                         customer != null -> {
@@ -105,7 +108,7 @@ fun DetailScreen(
                         }
 
                         else -> {
-                            Text("Customer not found.")
+                            Text("Customer not found.", modifier = Modifier.align(Alignment.Center))
                         }
                     }
                 }
@@ -115,53 +118,56 @@ fun DetailScreen(
 }
 
 @Composable
-fun BoxScope.CustomerDetail(customer: Customer) {
-    Column(
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            modifier = Modifier.testTag("name"),
-            text = customer.name,
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            modifier = Modifier.testTag("email"),
-            text = customer.email,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontSize = 16.sp
-            )
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            modifier = Modifier.testTag("creationDate"),
-            text = stringResource(id = R.string.created_at, customer.createdAt.toHumanDate()),
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontSize = 16.sp
-            )
-        )
-    }
-    if (customer.isNewCustomer())
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .offset(x = 24.dp, y = (-24).dp)
-                .rotate(45f)
-                .background(Color.Red)
-                .padding(8.dp)
+fun CustomerDetail(customer: Customer) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = stringResource(id = R.string.new_ribbon),
-                color = Color.White,
-                style = MaterialTheme.typography.bodyMedium.copy(
+                modifier = Modifier.testTag("name"),
+                text = customer.name,
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                modifier = Modifier.testTag("email"),
+                text = customer.email,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontSize = 16.sp
+                )
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                modifier = Modifier.testTag("creationDate"),
+                text = stringResource(id = R.string.created_at, customer.createdAt.toHumanDate()),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontSize = 16.sp
+                )
+            )
         }
+        if (customer.isNewCustomer()) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .offset(x = 24.dp, y = (-24).dp)
+                    .rotate(45f)
+                    .background(Color.Red)
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.new_ribbon),
+                    color = Color.White,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+        }
+    }
 }
 
 
@@ -169,6 +175,6 @@ fun BoxScope.CustomerDetail(customer: Customer) {
 @Composable
 private fun DetailScreenPreview() {
     DetailScreen(
-        customerId = 0
+        customerId = 1
     ) {}
 }

@@ -1,26 +1,14 @@
-import com.android.build.gradle.BaseExtension
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsCompose)
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.ksp)
-    id("jacoco")
 }
-tasks.withType<Test> {
-    extensions.configure(JacocoTaskExtension::class) {
-        isIncludeNoLocationClasses = true
-        excludes = listOf("jdk.internal.*")
-    }
-}
+
 android {
     namespace = "com.kirabium.relayance"
     compileSdk = 36
-
-//    testCoverage {
-//        version = "0.8.8"
-//    }
 
     defaultConfig {
         applicationId = "com.kirabium.relayance"
@@ -66,28 +54,22 @@ android {
     }
 }
 
-val androidExtension = extensions.getByType<BaseExtension>()
+//composeCompiler {
+//    sourceInformation = true
+//}
+//
+//kotlin {
+//    compilerOptions {
+//        freeCompilerArgs.addAll(
+//            "-P",
+//            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.layout.buildDirectory.get()}/compose_metrics",
+//            "-P",
+//            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.layout.buildDirectory.get()}/compose_metrics",
+//        )
+//    }
+//}
 
-val jacocoTestReport by tasks.registering(JacocoReport::class) {
-    dependsOn("testDebugUnitTest", "createDebugCoverageReport")
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports"
-
-    reports {
-        xml.required.set(true)
-        html.required.set(true)
-    }
-
-    val debugTree = fileTree("${buildDir}/tmp/kotlin-classes/debug")
-    val mainSrc = androidExtension.sourceSets.getByName("main").java.srcDirs
-
-    classDirectories.setFrom(debugTree)
-    sourceDirectories.setFrom(files(mainSrc))
-    executionData.setFrom(fileTree(buildDir) {
-        include("**/*.exec", "**/*.ec")
-    })
-}
-
+//val androidExtension = extensions.getByType<BaseExtension>()
 
 dependencies {
     //App
@@ -107,8 +89,10 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.runtime)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.androidx.room.compiler)
 
     //Test
     testImplementation(libs.junit)
