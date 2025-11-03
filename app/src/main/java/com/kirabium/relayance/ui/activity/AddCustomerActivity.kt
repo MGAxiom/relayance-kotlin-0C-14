@@ -1,6 +1,7 @@
 package com.kirabium.relayance.ui.activity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.kirabium.relayance.databinding.ActivityAddCustomerBinding
@@ -19,6 +20,7 @@ class AddCustomerActivity : AppCompatActivity() {
         setupBinding()
         setupToolbar()
         setupAddButton()
+        setupObservers()
     }
 
     private fun setupToolbar() {
@@ -33,15 +35,23 @@ class AddCustomerActivity : AppCompatActivity() {
     }
 
     private fun setupAddButton() {
-//        binding.addButton.setOnClickListener {
-//            val name = binding.nameEditText.text.toString()
-//            val email = binding.emailEditText.text.toString()
-//
-//            if (name.isNotBlank() && email.isNotBlank()) {
-//                viewModel.addCustomer(name, email)
-//                finish()
-//            }
-//        }
+        binding.saveButton.setOnClickListener {
+            val name = binding.nameEditText.text.toString()
+            val email = binding.emailEditText.text.toString()
+
+            if (name.isNotBlank() && email.isNotBlank()) {
+                viewModel.addCustomer(name, email)
+            }
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.showToast.observe(this) { message ->
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+            if (message == "Customer added successfully") {
+                finish()
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

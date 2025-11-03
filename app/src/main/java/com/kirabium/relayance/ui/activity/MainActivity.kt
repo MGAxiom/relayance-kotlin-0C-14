@@ -1,10 +1,10 @@
 package com.kirabium.relayance.ui.activity
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kirabium.relayance.data.DummyData
 import com.kirabium.relayance.databinding.ActivityMainBinding
 import com.kirabium.relayance.ui.MainViewModel
 import com.kirabium.relayance.ui.adapter.CustomerAdapter
@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         setupBinding()
         setupCustomerRecyclerView()
         setupFab()
+        setupObservers()
     }
 
     override fun onResume() {
@@ -40,13 +41,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupCustomerRecyclerView() {
         binding.customerRecyclerView.layoutManager = LinearLayoutManager(this)
-        customerAdapter = CustomerAdapter(DummyData.customers) { customer ->
+        customerAdapter = CustomerAdapter(emptyList()) { customer ->
             val intent = Intent(this, DetailActivity::class.java).apply {
                 putExtra(DetailActivity.EXTRA_CUSTOMER_ID, customer.id)
             }
             startActivity(intent)
         }
         binding.customerRecyclerView.adapter = customerAdapter
+    }
+
+    private fun setupObservers() {
+        viewModel.customers.observe(this) { customers ->
+            customerAdapter.updateCustomers(customers)
+        }
     }
 
     private fun setupBinding() {

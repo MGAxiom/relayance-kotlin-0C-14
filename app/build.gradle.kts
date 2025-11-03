@@ -17,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.kirabium.relayance.CucumberTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -54,23 +54,6 @@ android {
     }
 }
 
-//composeCompiler {
-//    sourceInformation = true
-//}
-//
-//kotlin {
-//    compilerOptions {
-//        freeCompilerArgs.addAll(
-//            "-P",
-//            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.layout.buildDirectory.get()}/compose_metrics",
-//            "-P",
-//            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.layout.buildDirectory.get()}/compose_metrics",
-//        )
-//    }
-//}
-
-//val androidExtension = extensions.getByType<BaseExtension>()
-
 dependencies {
     //App
     implementation(libs.androidx.core.ktx)
@@ -90,6 +73,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.google.material)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.androidx.room.compiler)
@@ -104,4 +88,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.cucumber.android)
+    androidTestImplementation(libs.junit)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.androidx.core.testing)
 }
