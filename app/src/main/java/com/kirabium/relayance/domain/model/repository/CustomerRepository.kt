@@ -4,22 +4,21 @@ import com.kirabium.relayance.data.DummyData
 import com.kirabium.relayance.domain.model.model.Customer
 import java.util.Date
 
-
 interface CustomerRepository {
     fun getCustomers(): List<Customer>
 
-    fun getCustomerById(customerId: Int): Customer
+    fun getCustomerById(customerId: Int): Customer?
 
     fun addCustomer(name: String, email: String)
 }
 
 class CustomerRepositoryImpl : CustomerRepository {
     override fun getCustomers(): List<Customer> {
-       return DummyData.customers
+        return DummyData.customers
     }
 
-    override fun getCustomerById(customerId: Int): Customer {
-        return DummyData.customers.first { it.id == customerId }
+    override fun getCustomerById(customerId: Int): Customer? {
+        return DummyData.customers.firstOrNull { it.id == customerId }
     }
 
     override fun addCustomer(name: String, email: String) {

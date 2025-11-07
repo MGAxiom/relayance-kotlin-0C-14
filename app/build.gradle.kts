@@ -4,6 +4,14 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.ksp)
+    id("jacoco")
+}
+
+tasks.withType<Test> {
+    extensions.configure(JacocoTaskExtension::class) {
+        isIncludeNoLocationClasses = true
+        excludes = listOf("jdk.internal.*")
+    }
 }
 
 android {
@@ -24,15 +32,16 @@ android {
     }
 
     buildTypes {
+        getByName("debug") {
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        debug {
-
         }
     }
     compileOptions {
@@ -54,6 +63,36 @@ android {
     }
 }
 
+val jacocoTestReport by tasks.registering(JacocoReport::class) {
+    dependsOn("testDebugUnitTest", "createDebugCoverageReport")
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for the debug build"
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    val sourceDirs = files("src/main/java", "src/main/kotlin")
+    val classesDirs = fileTree(layout.buildDirectory.dir("tmp/kotlin-classes/debug")) {
+        exclude(
+            "**/R.class",
+            "**/R$*.class",
+            "**/BuildConfig.*",
+            "**/Manifest*.*",
+            "**/*Test*.*",
+            "**/DataBinderMapperImpl.class",
+        )
+    }
+    val executionDataFiles = fileTree(layout.buildDirectory) {
+        include("outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec", "outputs/code_coverage/debugAndroidTest/connected/*coverage.ec")
+    }
+
+    sourceDirectories.setFrom(sourceDirs)
+    classDirectories.setFrom(classesDirs)
+    executionData.setFrom(executionDataFiles)
+}
+
 dependencies {
     //App
     implementation(libs.androidx.core.ktx)
@@ -73,7 +112,6 @@ dependencies {
     implementation(libs.androidx.compose.runtime.livedata)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.runtime)
-    implementation(libs.google.material)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.androidx.room.compiler)
@@ -89,7 +127,6 @@ dependencies {
     testImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.espresso.intents)
     androidTestImplementation(libs.cucumber.android)
-    androidTestImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.androidx.core.testing)
 }
